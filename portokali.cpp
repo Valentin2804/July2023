@@ -26,7 +26,7 @@ class Map
 
     void addBadOrrange(int x, int y)
     {
-        if(x < 0 || y < 0 || x >= K || y >= L)
+        if(x < 0 || y < 0 || x >= K + 1 || y >= L + 1)
         {
             throw invalid_argument("Invalid parameters, coordinates should be unsigned and in the table");
         }
@@ -35,51 +35,61 @@ class Map
 
     int calculateGoodOrrangesByDay(int R)
     {
+        R++;
+        
         int count = 0;
+        
+        for (int i = 0; i < table.size(); i++) 
+        {
+            for (int j = 0; j < table[i].size(); j++) 
+            {
+                if(table[i][j] == 1)
+                {
+                    table[i][j] = R;
+                }
+            }
+        }
 
-        for(int r = 0; r < R; r++)
+        while(R != 0)
         {
             for (int i = 0; i < table.size(); i++) 
             {
                 for (int j = 0; j < table[i].size(); j++) 
                 {
-                    if(table[i][j] == 1)
+                    if(table[i][j] == R)
                     {
                         if(i != 0)
                         {
-                            table[i-1][j] = 1;
+                            if(table[i-1][j] == 0)
+                            {
+                                table[i-1][j] = R - 1;
+                            }
                         }
                         if(j != 0)
                         {
-                            table[i][j-1] = 1;
+                            if(table[i][j-1] == 0)
+                            {
+                                table[i][j-1] = R - 1;
+                            }
                         }
                         if(i != K - 1)
                         {
-                            table[i+1][j] = 1;
+                            if(table[i+1][j] == 0)
+                            {
+                                table[i+1][j] = R - 1;
+                            }
                         }
                         if(j != L - 1)
                         {
-                            table[i][j+1] = 1;
+                            if(table[i][j+1] == 0)
+                            {
+                                table[i][j+1] = R - 1;
+                            }
                         }
                     }
                 }
-            }
-
-            for (int i = 0; i < table.size(); i++) 
-            {
-                for (int j = 0; j < table[i].size(); j++) 
-                {
-                    if(table[i][j] == 0)
-                    {
-                        count++;
-                    }
-
-                    cout << table[i][j];
-                }
-                cout << "\n";
-            }
-
-            cout << "\n" << "\n";
+            }  
+            R--;
         }
         
         for (int i = 0; i < table.size(); i++) 
