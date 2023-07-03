@@ -30,7 +30,7 @@ class Map
         {
             throw invalid_argument("Invalid parameters, coordinates should be unsigned and in the table");
         }
-        table[x][y] = 1;
+        table[x-1][y-1] = 1;
     }
 
     int calculateGoodOrrangesByDay(int R)
@@ -64,13 +64,29 @@ class Map
                     }
                 }
             }
+
+            for (int i = 0; i < table.size(); i++) 
+            {
+                for (int j = 0; j < table[i].size(); j++) 
+                {
+                    if(table[i][j] == 0)
+                    {
+                        count++;
+                    }
+
+                    cout << table[i][j];
+                }
+                cout << "\n";
+            }
+
+            cout << "\n" << "\n";
         }
         
         for (int i = 0; i < table.size(); i++) 
         {
             for (int j = 0; j < table[i].size(); j++) 
             {
-                if(table[i][j] == 1)
+                if(table[i][j] == 0)
                 {
                     count++;
                 }
@@ -93,28 +109,20 @@ int main()
 
     Map map = Map(K, L);
 
-    string line1;
-    string line2;
-
-    getline(cin, line1);
-    getline(cin, line2);
-
     int x;
     int y;
+    int x1;
+    int y1;
 
-    istringstream isStrStream (line1);
-    istringstream isStrStream2 (line2);
+    cin >> x;
+    cin >> y;
+    cin >> x1;
+    cin >> y1;
 
-    if(isStrStream >> x && isStrStream >> y)
-    {
-        map.addBadOrrange(x, y);
-    }
+    map.addBadOrrange(x, y);
 
-    if(isStrStream2 >> x && isStrStream2 >> y)
-    {
-        map.addBadOrrange(x, y);
-    }
-
+    map.addBadOrrange(x1, y1);
+    
     cout<< map.calculateGoodOrrangesByDay(R);
 
     return 0;
